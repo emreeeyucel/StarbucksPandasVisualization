@@ -133,3 +133,17 @@ plt.show()
 
 
 
+# region Her kategori (type) için kalori değerlerinin ortalama, toplam, maksimum ve minimum değerlerini hesaplayarak bar grafiği oluşturun.
+
+type_calories_mean = df.groupby('type')[['calories']].agg(['mean', 'sum', 'max', 'min'])
+type_calories_mean.plot(kind='bar', title='Kalori Değerleri', edgecolor='black')
+plt.ylabel('Değerler', color='red')
+plt.xlabel('Ürün Çeşit', color='red')
+plt.grid(True, alpha=0.3, linestyle='--')
+plt.legend(title='Grafik Açıklamaları')
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
