@@ -93,6 +93,7 @@ plt.show()
 
 
 # region Fiber Değerlerinin Histogram Grafiği
+
 df.plot(kind='hist', y='fiber', color='skyblue', edgecolor='black', bins=50)
 plt.title('Fiber Değerlerinin Sıklık Değerleri', color='red')
 plt.ylabel('Tekrar Sıklığı', color='red')
@@ -106,6 +107,7 @@ plt.show()
 
 
 # region Protein Dağılımı - KDE
+
 df.plot(kind='kde', y='protein', color='purple', linestyle='--')
 plt.title('Protein Dağılımı - KDE', fontsize=16)
 plt.xlabel('Protein Miktarı', fontsize=12)
@@ -143,6 +145,21 @@ plt.grid(True, alpha=0.3, linestyle='--')
 plt.legend(title='Grafik Açıklamaları')
 plt.tight_layout()
 plt.show()
+# endregion
+
+
+
+# region Her kategori (type) için "agg" fonksiyonu kullanarak kalori değerlerinin toplam ve maksimum bar grafiği oluşturun.
+
+df.groupby('type')[['calories']].agg(['mean', 'sum', 'max']).reset_index().plot(kind='bar', x='type', y=[('calories', 'sum'), ('calories', 'max')])
+plt.ylabel('Değerler', color='red')
+plt.xlabel('Ürün Çeşit', color='red')
+plt.grid(True, alpha=0.3, linestyle='--')
+plt.legend(title='Grafik Açıklamaları')
+plt.tight_layout()
+plt.show()
+
+# Burada, agg fonksiyonu sonucu oluşturulan çok seviyeli sütun adlarını kullanıyoruz eksenlere yerleştirken uygun yerleştirmemiz gerekmektedir.Eğer Tüm sütunları grafikte gösterceksek eksende belirtmemize gerek yok indexler x, sütunlar y ekseninde varlığını sürdürür. Bir üst örneğimizden farkı gösterir bu durumda.
 # endregion
 
 
