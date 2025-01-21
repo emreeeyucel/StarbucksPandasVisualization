@@ -164,3 +164,13 @@ plt.show()
 
 
 
+# region Ürün Türüne Göre Toplam Yağ Miktarını Gösterin
+
+df.groupby('type')['fat'].sum().plot(kind='pie', figsize=(8,8), autopct='%1.1f%%', startangle=90,wedgeprops={'edgecolor': 'black', 'linewidth': 1.5}, textprops={'color': 'black', 'fontsize': 12})
+plt.title('Ürün Türüne Göre Toplam Yağ Miktarı')
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
