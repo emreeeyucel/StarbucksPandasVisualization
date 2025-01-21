@@ -174,3 +174,58 @@ plt.show()
 
 
 
+# region Yağ ile Kalori Arasındaki İlişkiyi Gösterin
+
+df.plot(kind='scatter', x='fat', y='calories', figsize=(8, 6), color='purple')
+plt.title('Yağ ile Kalori Arasındaki İlişki')
+plt.xlabel('Yağ')
+plt.ylabel('Kalori')
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.show()
+# endregion
+
+
+# region Protein İçeren Ürünleri Gösterin
+
+df[df['protein'] > 0].plot(kind='barh', x='item', y='protein', figsize=(10, 6), color='lightgreen')
+plt.title('Protein İçeren Ürünler')
+plt.xlabel('Protein (gram)')
+plt.ylabel('Ürünler')
+plt.grid(True, alpha=0.3, linestyle='--')
+plt.legend(title='Grafik Açıklamaları')
+plt.show()
+# endregion
+
+
+# region Toplam Protein Değeri 10 ile 15 Arasındaki Ürünleri Gösterin
+
+df[df['protein'].between(10, 15)].plot(kind='bar', x='item', y='protein')
+plt.title('10-15 gr Protein İçeren Ürünler')
+plt.xlabel('Protein (gram)')
+plt.ylabel('Ürünler')
+plt.grid(True, alpha=0.3, linestyle='--')
+plt.legend(title='Grafik Açıklamaları')
+plt.show()
+# endregion
+
+
+# region Toplam Protein Değeri 5 ile 15 Arasındaki ve Kalori Değeri 300 aşağısnda olan ürünleri Bar ile Gösterelim.
+
+ax = df[(df['protein'].between(5, 15)) & (df['calories'] < 300)].plot(
+    kind='bar',
+    x='item',
+    y=['calories', 'protein'],
+    figsize=(10, 6),
+    color=['skyblue', 'orange']
+)
+ax.set_title('Protein ve Kalori Değerleri (5-15 Protein, 0 - 300 Arası Kalori)', fontsize=14)
+ax.set_xlabel('Ürünler', fontsize=12)
+ax.set_ylabel('Değerler', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.legend(title='Besin Bilgisi', fontsize=10)
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
