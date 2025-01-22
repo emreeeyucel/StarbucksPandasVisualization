@@ -250,3 +250,22 @@ plt.show()
 
 
 
+# region En Düşük Kaloriye Sahip 10 Ürünü Gösterin
+
+top_10_low = df.nsmallest(10, 'calories')
+colors = plt.cm.plasma(top_10_low['calories'] / top_10_low['calories'].max())
+ax = top_10_low.plot(kind='bar', x='item', y='calories', figsize=(12, 7), color=colors, edgecolor='black')
+ax.set_title('En Düşük Kaloriye Sahip 10 Ürün', fontsize=16, fontweight='bold', color='darkblue')
+ax.set_xlabel('Ürünler', fontsize=14, fontweight='bold', color='darkgreen')
+ax.set_ylabel('Kalori', fontsize=14, fontweight='bold', color='darkgreen')
+
+# Etiket boyutlarını ayarlama
+ax.tick_params(axis='x', labelsize=12, rotation=45, labelcolor='black')
+ax.tick_params(axis='y', labelsize=12, labelcolor='black')
+
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
