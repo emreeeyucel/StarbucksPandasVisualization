@@ -269,3 +269,30 @@ plt.show()
 
 
 
+# region Ürün Türlerine Göre Ortalama Protein Değeri Nasıldır
+
+protein_means = df.groupby('type')['protein'].mean()
+colors = plt.cm.magma(protein_means / protein_means.max())
+fig, ax = plt.subplots(figsize=(12, 7))
+protein_means.plot(kind='bar', color=colors, edgecolor='black', ax=ax)
+ax.set_title('Ürün Türlerine Göre Ortalama Protein Değeri', fontsize=18, fontweight='bold', color='darkblue')
+ax.set_xlabel('Ürün Türü', fontsize=14, fontweight='bold', color='darkgreen')
+ax.set_ylabel('Ortalama Protein (gram)', fontsize=14, fontweight='bold', color='darkgreen')
+ax.grid(axis='y', linestyle='--', alpha=0.7)
+
+# Değer etiketlerini ekleme
+for i, value in enumerate(protein_means):
+    ax.text(i, value +1, f'{value:.1f}', ha='center', va='bottom', fontsize=12, fontweight='bold', color='darkred')
+
+# X ve Y eksen ayarları
+ax.tick_params(axis='x', labelsize=12, labelcolor='black')
+ax.tick_params(axis='y', labelsize=12, labelcolor='black')
+
+# Kenarlıkları ayarlama
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+
+plt.tight_layout()
+plt.show()
+# endregion
