@@ -296,3 +296,35 @@ ax.spines['right'].set_visible(False)
 plt.tight_layout()
 plt.show()
 # endregion
+
+
+
+# region Karbonhidrat Miktarı ile Kalori Arasındaki İlişkiyi Gösterin
+
+df.plot(kind='scatter', x='carb', y='calories', figsize=(8, 6), color='orange')
+plt.title('Karbonhidrat Miktarı ile Kalori Arasındaki İlişki')
+plt.xlabel('Karbonhidrat (gr)')
+plt.ylabel('Kalori')
+plt.show()
+# endregion
+
+
+# region Ürünlerin Kalori Miktarını Dağılım Grafiği ile Gösterin
+
+df['calories'].plot(kind='hist', bins=20, figsize=(8,6), color='green', edgecolor='black')
+plt.title('Ürünlerin Kalori Dağılımı')
+plt.xlabel('Kalori')
+plt.ylabel('Frekans')
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+# region Yağ ve Karbonhidrat Arasındaki İlişkiyi Gösterin
+
+df.plot(kind='scatter', x='fat', y='carb', figsize=(8, 6), color='red')
+plt.title('Yağ ve Karbonhidrat Arasındaki İlişki')
+plt.xlabel('Yağ (gram)')
+plt.ylabel('Karbonhidrat(gr)')
+plt.show()
+# endregion
