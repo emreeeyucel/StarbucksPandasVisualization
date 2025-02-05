@@ -328,3 +328,15 @@ plt.xlabel('Yağ (gram)')
 plt.ylabel('Karbonhidrat(gr)')
 plt.show()
 # endregion
+
+
+
+# region Ürünlerin Kalori Miktarını Dağılım Grafiği ile Gösterin
+
+df['calories'].plot(kind='hist', bins=20, figsize=(8,6), color='green', edgecolor='black')
+plt.title('Ürünlerin Kalori Dağılımı')
+plt.xlabel('Kalori')
+plt.ylabel('Frekans')
+plt.tight_layout()
+plt.show()
+# endregion
