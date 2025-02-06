@@ -236,7 +236,7 @@ ax = top_10.plot(kind='barh', x='item', y='calories', figsize=(12, 7), color=plt
 ax.set_title('En Yüksek Kaloriye Sahip 10 Ürün', fontsize=16, fontweight='bold', color='darkblue')
 ax.set_xlabel('Kalori', fontsize=14, fontweight='bold', color='darkgreen')
 ax.set_ylabel('Ürünler', fontsize=14, fontweight='bold', color='darkgreen')
-ax.tick_params(axis='y', labelsize=12)                         #  axis = hangi eksen olduğu, eksendeki etiketlerin yazı tipi boyutunu büyütür veya küçültür.
+ax.tick_params(axis='y', labelsize=12)                         #  axis = hangi eksen olduğu, eksendeki etiketlerin yazı tipi boyutunu büyütür veya küçültür.Y eksenindeki etiketlerin yazı boyutunu 12 yap
 ax.tick_params(axis='x', labelsize=12)
 plt.xticks(rotation=0, fontweight='light', fontsize=12)
 plt.yticks(fontweight='light', fontsize=12)
