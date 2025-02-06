@@ -240,6 +240,9 @@ ax.tick_params(axis='y', labelsize=12)                         #  axis = hangi e
 ax.tick_params(axis='x', labelsize=12)
 plt.xticks(rotation=0, fontweight='light', fontsize=12)
 plt.yticks(fontweight='light', fontsize=12)
+plt.gca().set_facecolor("lightgray")  # Grafik alanının arka planı
+plt.gcf().set_facecolor("lightblue")  # Dış alanın arka planı
+
 
 # Bar kenarlıklarını koyulaştır
 for bar in ax.patches:
@@ -258,6 +261,8 @@ ax = top_10_low.plot(kind='bar', x='item', y='calories', figsize=(12, 7), color=
 ax.set_title('En Düşük Kaloriye Sahip 10 Ürün', fontsize=16, fontweight='bold', color='darkblue')
 ax.set_xlabel('Ürünler', fontsize=14, fontweight='bold', color='darkgreen')
 ax.set_ylabel('Kalori', fontsize=14, fontweight='bold', color='darkgreen')
+plt.gca().set_facecolor("lightgray")
+plt.gcf().set_facecolor("lightblue")
 
 # Etiket boyutlarını ayarlama
 ax.tick_params(axis='x', labelsize=12, rotation=45, labelcolor='black')
@@ -279,6 +284,9 @@ ax.set_title('Ürün Türlerine Göre Ortalama Protein Değeri', fontsize=18, fo
 ax.set_xlabel('Ürün Türü', fontsize=14, fontweight='bold', color='darkgreen')
 ax.set_ylabel('Ortalama Protein (gram)', fontsize=14, fontweight='bold', color='darkgreen')
 ax.grid(axis='y', linestyle='--', alpha=0.7)
+ax.set_facecolor("beige")  # Grafik alanının arka planı
+fig.patch.set_facecolor("lightblue")  # Dış alanın arka planı
+
 
 # Değer etiketlerini ekleme
 for i, value in enumerate(protein_means):
