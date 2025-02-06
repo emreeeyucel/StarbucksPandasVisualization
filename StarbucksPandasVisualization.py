@@ -236,13 +236,12 @@ ax = top_10.plot(kind='barh', x='item', y='calories', figsize=(12, 7), color=plt
 ax.set_title('En Yüksek Kaloriye Sahip 10 Ürün', fontsize=16, fontweight='bold', color='darkblue')
 ax.set_xlabel('Kalori', fontsize=14, fontweight='bold', color='darkgreen')
 ax.set_ylabel('Ürünler', fontsize=14, fontweight='bold', color='darkgreen')
-ax.tick_params(axis='y', labelsize=12)                         #  axis = hangi eksen olduğu eksendeki etiketlerin yazı tipi boyutunu büyütür veya küçültür.
+ax.tick_params(axis='y', labelsize=12)                         #  axis = hangi eksen olduğu, eksendeki etiketlerin yazı tipi boyutunu büyütür veya küçültür.
 ax.tick_params(axis='x', labelsize=12)
 plt.xticks(rotation=0, fontweight='light', fontsize=12)
 plt.yticks(fontweight='light', fontsize=12)
 plt.gca().set_facecolor("lightgray")  # Grafik alanının arka planı
 plt.gcf().set_facecolor("lightblue")  # Dış alanın arka planı
-
 
 # Bar kenarlıklarını koyulaştır
 for bar in ax.patches:
@@ -292,9 +291,11 @@ fig.patch.set_facecolor("lightblue")  # Dış alanın arka planı
 for i, value in enumerate(protein_means):
     ax.text(i, value +1, f'{value:.1f}', ha='center', va='bottom', fontsize=12, fontweight='bold', color='darkred')
 
+
 # X ve Y eksen ayarları
 ax.tick_params(axis='x', labelsize=12, labelcolor='black')
 ax.tick_params(axis='y', labelsize=12, labelcolor='black')
+
 
 # Kenarlıkları ayarlama
 ax.spines['top'].set_visible(False)
