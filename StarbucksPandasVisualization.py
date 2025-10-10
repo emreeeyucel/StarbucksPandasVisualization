@@ -349,3 +349,86 @@ plt.ylabel('Frekans')
 plt.tight_layout()
 plt.show()
 # endregion
+
+
+
+# region Korelasyon Heatmap — “Besin Değerleri Arasındaki İlişki”
+
+
+plt.style.use('seaborn-v0_8-whitegrid')
+
+numeric_cols = ['calories', 'fat', 'carb', 'protein', 'fiber']
+corr = df[numeric_cols].corr()
+
+plt.figure(figsize=(8,6))
+sns.heatmap(corr, annot=True, cmap='Greens', fmt=".2f", linewidths=1, cbar_kws={'label': 'Korelasyon Değeri'})
+plt.title(' Besin Değerleri Arasındaki Korelasyon', fontsize=16, fontweight='bold', color='#00704A', pad=20)
+plt.tight_layout()
+plt.show()
+
+# Kalori ile yağ arasında güçlü pozitif korelasyon, protein ile kalori arasında orta düzey ilişki beklenir.
+# endregion
+
+
+
+# region Protein ve Kalori Yoğunluğu Dağılımı — “Sağlık Skoru Analizi
+
+df['protein_efficiency'] = df['protein'] / df['calories']
+df['density'] = df['calories'] / (df['protein'] + df['carb'] + df['fat'])
+
+fig, ax = plt.subplots(figsize=(10,6))
+scatter = ax.scatter(df['density'], df['protein_efficiency'],
+                     c=df['calories'], cmap='Greens', s=120, edgecolor='black', alpha=0.8)
+
+ax.set_title('💚 Protein ve Kalori Yoğunluğu Dağılımı', fontsize=18, fontweight='bold', color='#00704A')
+ax.set_xlabel('Kalori Yoğunluğu (Cal / (Protein + Carb + Fat))', fontsize=12, color='#4B2E05')
+ax.set_ylabel('Protein Verimliliği (Protein / Calorie)', fontsize=12, color='#4B2E05')
+ax.grid(True, linestyle='--', alpha=0.5)
+cbar = plt.colorbar(scatter)
+cbar.set_label('Kalori Düzeyi', fontsize=11, color='#004D40', fontweight='bold')
+plt.tight_layout()
+
+plt.show()
+
+# endregion
+
+
+
+# region Kategori Bazlı Ortalama Besin Değerleri
+type_means = df.groupby('type')[['calories', 'fat', 'carb', 'protein', 'fiber']].mean().reset_index()
+
+fig, ax = plt.subplots(figsize=(10,6))
+type_means.set_index('type').plot(kind='bar', ax=ax, colormap='Greens', edgecolor='black')
+
+ax.set_title('Kategori Bazlı Ortalama Besin Değerleri', fontsize=18, fontweight='bold', color='#00704A')
+ax.set_xlabel('Ürün Türü', fontsize=12, color='#4B2E05')
+ax.set_ylabel('Ortalama Değer', fontsize=12, color='#4B2E05')
+ax.legend(title='Besin Türü', loc='upper right', fontsize=10)
+ax.grid(axis='y', linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
+# region 10–15g Protein Arası Ürünlerin Karşılaştırması — “Orta Protein Grubu
+mid_protein = df[df['protein'].between(10, 15)]
+
+fig, ax = plt.subplots(figsize=(12,6))
+bars = ax.bar(mid_protein['item'], mid_protein['protein'], color=cm.Greens(np.linspace(0.4, 1, len(mid_protein))), edgecolor='black')
+
+ax.set_title('🌿 10–15g Protein İçeren Ürünlerin Karşılaştırması', fontsize=18, fontweight='bold', color='#00704A', pad=20)
+ax.set_xlabel('Ürünler', fontsize=12, color='#4B2E05')
+ax.set_ylabel('Protein (gram)', fontsize=12, color='#4B2E05')
+ax.set_facecolor('#E8F5E9')
+fig.patch.set_facecolor('#F5F1E7')
+plt.xticks(rotation=45, ha='right')
+
+# Değer etiketleri ekleyelim
+for bar in bars:
+    height = bar.get_height()
+    ax.text(bar.get_x() + bar.get_width()/2, height + 0.3, f'{height:.1f}', ha='center', fontsize=10, fontweight='bold', color='#1B5E20')
+
+plt.tight_layout()
+plt.show()
+# endregion
