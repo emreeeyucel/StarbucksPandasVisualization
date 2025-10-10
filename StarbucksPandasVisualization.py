@@ -432,3 +432,13 @@ for bar in bars:
 plt.tight_layout()
 plt.show()
 # endregion
+
+
+
+# region Kategori Bazlı Sağlık Skoru
+df['health_score'] = (df['protein'] - df['fat']) / df['calories']
+type_health = df.groupby('type')['health_score'].mean().sort_values(ascending=False)
+type_health.plot(kind='bar', color='green', edgecolor='black')
+plt.title('Ürün Tiplerine Göre Ortalama Sağlık Skoru')
+plt.show()
+# endregion
