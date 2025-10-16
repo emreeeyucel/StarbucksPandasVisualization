@@ -442,3 +442,198 @@ type_health.plot(kind='bar', color='green', edgecolor='black')
 plt.title('Ürün Tiplerine Göre Ortalama Sağlık Skoru')
 plt.show()
 # endregion
+
+
+
+# region En Yüksek Kalorili 5 Ürünün Besin Dağılımı
+
+top5 = df.nlargest(5, 'calories')[['item', 'fat', 'carb', 'protein']]
+top5.set_index('item', inplace=True)
+
+top5.plot(kind='bar', stacked=True, figsize=(10,6),
+          color=['#CBB26A', '#A7E3A1', '#006241'], edgecolor='#4B2E05', linewidth=1.5)
+
+plt.title('En Yüksek Kalorili 5 Ürünün Besin Bileşimi', fontsize=16, fontweight='bold', color='#006241')
+plt.xlabel('Ürünler', fontsize=12, color='#4B2E05')
+plt.ylabel('Miktar (gram)', fontsize=12, color='#4B2E05')
+plt.legend(title='Bileşenler', loc='upper right')
+plt.grid(axis='y', linestyle='--', alpha=0.6, color='#CBB26A')
+plt.gca().set_facecolor('#F5F1E7')
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
+# region Fiber ve Protein Oranı — Sağlık Dengesi Analizi
+
+avg_values = df.groupby('type')[['fiber', 'protein']].mean()
+
+fig, ax = plt.subplots(figsize=(10,6))
+ax.bar(avg_values.index, avg_values['fiber'], label='Fiber', color='#A7E3A1', edgecolor='#006241', linewidth=1.5)
+ax.bar(avg_values.index, avg_values['protein'], bottom=avg_values['fiber'],
+       label='Protein', color='#006241', edgecolor='#006241', linewidth=1.5)
+
+ax.set_title('Kategori Bazlı Ortalama Fiber ve Protein Miktarı', fontsize=16, color='#006241', fontweight='bold')
+ax.set_xlabel('Ürün Tipi', fontsize=12, color='#4B2E05')
+ax.set_ylabel('Ortalama Miktar (gram)', fontsize=12, color='#4B2E05')
+ax.legend(facecolor='#F5F1E7', edgecolor='#4B2E05')
+ax.set_facecolor('#F5F1E7')
+ax.grid(axis='y', linestyle='--', alpha=0.5, color='#A7E3A1')
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
+# region Kaloriye Göre Protein/Yağ Oranı — Enerji Dengesi
+
+df['ratio_protein_fat'] = df['protein'] / (df['fat'] + 1)
+
+plt.figure(figsize=(10,6))
+plt.scatter(df['calories'], df['ratio_protein_fat'],
+            c=df['protein'], cmap='cool', s=120, edgecolor='#4B2E05', alpha=0.85)
+
+plt.title('Kaloriye Göre Protein/Yağ Oranı Dağılımı', fontsize=16, fontweight='bold', color='#2F4F4F')
+plt.xlabel('Kalori', fontsize=12, color='#2F4F4F')
+plt.ylabel('Protein / Yağ Oranı', fontsize=12, color='#2F4F4F')
+plt.grid(True, linestyle='--', alpha=0.4, color='#B0C4DE')
+plt.colorbar(label='Protein (g)')
+plt.gca().set_facecolor('#F0F8FF')
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
+# region Aykırı Değer Analizi — Kalori
+
+q1 = df['calories'].quantile(0.25)
+q3 = df['calories'].quantile(0.75)
+iqr = q3 - q1
+outliers = df[df['calories'] > q3 + 1.5 * iqr]
+
+plt.figure(figsize=(10,6))
+plt.boxplot(df['calories'], patch_artist=True,
+            boxprops=dict(facecolor='#E0E0E0', color='#4B2E05', linewidth=1.5),
+            medianprops=dict(color='#C0392B', linewidth=2))
+
+plt.scatter([1]*len(outliers), outliers['calories'], color='#C0392B', label='Aykırı Ürünler', zorder=3, s=80, edgecolor='#4B2E05')
+plt.title('Aykırı Kalori Değerleri (Outlier Analizi)', fontsize=16, fontweight='bold', color='#4B2E05')
+plt.ylabel('Kalori', fontsize=12, color='#4B2E05')
+plt.legend(facecolor='#F5F1E7', edgecolor='#4B2E05')
+plt.gca().set_facecolor('#F5F1E7')
+plt.grid(axis='y', linestyle='--', alpha=0.4, color='#D0D0D0')
+plt.tight_layout()
+plt.show()
+
+print("Aykırı Kalorili Ürünler:")
+print(outliers[['item', 'type', 'calories']])
+# endregion
+
+
+
+# region Geliştirilmiş Boxplot - Kategori Bazlı Kalori Dağılımı
+
+plt.figure(figsize=(10,6))
+ax = plt.gca()
+ax.set_facecolor('#F5F1E7')  # Krem arka plan
+
+# Boxplot
+box = df.boxplot(column='calories', by='type', grid=False, ax=ax,
+           boxprops=dict(color='#006241', linewidth=1.5, facecolor='#A7E3A1'),
+           whiskerprops=dict(color='#006241', linewidth=1.5),
+           capprops=dict(color='#006241', linewidth=1.5),
+           medianprops=dict(color='#CBB26A', linewidth=2.5),
+           flierprops=dict(marker='o', color='#C0392B', alpha=0.7, markersize=6),
+           patch_artist=True)
+
+# Başlık ve eksenler
+plt.title('Kategori Bazlı Kalori Dağılımı', fontsize=16, fontweight='bold', color='#006241')
+plt.suptitle('')
+plt.xlabel('Ürün Tipi', fontsize=12, color='#4B2E05')
+plt.ylabel('Kalori', fontsize=12, color='#4B2E05')
+
+# Grid & çizgiler
+plt.grid(axis='y', linestyle='--', alpha=0.4, color='#CBB26A')
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+# Küçük aralıklar ve düzen
+plt.xticks(rotation=15, color='#4B2E05')
+plt.yticks(color='#4B2E05')
+plt.tight_layout()
+plt.show()
+
+# endregion
+
+
+
+# region Kalori - Protein İlişkisi (Scatter)
+plt.figure(figsize=(10,6))
+plt.scatter(df['calories'], df['protein'],
+            color='red', edgecolor='black', alpha=0.7)
+
+plt.title('Kalori ve Protein Arasındaki İlişki', fontsize=16, color='#1B4F72', fontweight='bold')
+plt.xlabel('Kalori', fontsize=12, color='#1B2631')
+plt.ylabel('Protein (g)', fontsize=12, color='#1B2631')
+plt.grid(True, linestyle='--', alpha=0.4, color='#B3B6B7')
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
+# region Kalori Yoğunluğu Analizi
+df['cal_density'] = df['calories'] / (df['fat'] + df['carb'] + df['protein'])
+density = df.groupby('type')['cal_density'].mean().sort_values()
+
+plt.figure(figsize=(10,6))
+bars = plt.bar(density.index, density, color='#D4AC0D', edgecolor='black', alpha=0.8)
+plt.axhline(df['cal_density'].mean(), color='#2E7D32', linestyle='--', linewidth=2, label='Genel Ortalama')
+
+plt.title('Kategori Bazlı Kalori Yoğunluğu', fontsize=16, color='#1B4F72', fontweight='bold')
+plt.xlabel('Ürün Tipi')
+plt.ylabel('Kalori Yoğunluğu')
+plt.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.4)
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
+# region Health Index Analizi
+df['health_index'] = (df['protein'] + df['fiber']) / (df['fat'] + df['carb'] + 1)
+top10 = df.nlargest(10, 'health_index')
+
+plt.figure(figsize=(10,6))
+plt.barh(top10['item'], top10['health_index'], color='#2E7D32', edgecolor='black')
+plt.title('En Sağlıklı 10 Ürün (Health Index)', fontsize=16, color='#1B4F72', fontweight='bold')
+plt.xlabel('Health Index (Protein + Fiber) / (Fat + Carb + 1)')
+plt.gca().invert_yaxis()
+plt.grid(axis='x', linestyle='--', alpha=0.4, color='#B3B6B7')
+plt.tight_layout()
+plt.show()
+# endregion
+
+
+
+# region Protein - Karbonhidrat Karşılaştırması
+avg_macros = df.groupby('type')[['protein','carb']].mean()
+
+plt.figure(figsize=(10,6))
+width = 0.35
+x = range(len(avg_macros))
+plt.bar(x, avg_macros['protein'], width, label='Protein', color='#2E7D32')
+plt.bar([p + width for p in x], avg_macros['carb'], width, label='Karbonhidrat', color='#D4AC0D')
+
+plt.xticks([p + width/2 for p in x], avg_macros.index, rotation=15)
+plt.title('Kategori Bazlı Protein ve Karbonhidrat Karşılaştırması', fontsize=16, color='#1B4F72', fontweight='bold')
+plt.xlabel('Ürün Tipi')
+plt.ylabel('Ortalama Miktar (g)')
+plt.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.4)
+plt.tight_layout()
+plt.show()
+# endregion
